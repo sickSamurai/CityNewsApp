@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { City } from './CityType'
+import { City } from './City'
 
 const appid = 'ae4ef3e6bb2395c795f847fa8b8bc1c0'
 
