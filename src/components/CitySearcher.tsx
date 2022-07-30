@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import { Stack } from '@mui/material'
 
 type Props = {
   onSearch: (term: string) => void
-  onHide?: () => {}
 }
 
 export const CitySearcher = ({ onSearch }: Props) => {
@@ -12,30 +15,34 @@ export const CitySearcher = ({ onSearch }: Props) => {
     setInputValue(event.target.value)
   }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSearchButtonClick = (event: React.MouseEvent) => {
     event.preventDefault()
     onSearch(inputValue)
     setInputValue('')
   }
 
-  const onHistorial = (event: React.MouseEvent) => {
+  const onHistorialButtonClick = (event: React.MouseEvent) => {
     event.preventDefault()
   }
 
   return (
-    <div className='mui-row'>
-      <form className='mui-form' onSubmit={onSubmit}>
-        <div className='mui-textfield mui-textfield--float-label mui-col-md-3'>
-          <input type='text' value={inputValue} onChange={onInputChange}></input>
-          <label>Ingresa la ciudad</label>
-        </div>
-        <button className='mui-btn mui-btn--primary mui-col-md-1' type='submit'>
-          BUSCAR
-        </button>
-      </form>
-      <button className='mui-btn mui-btn--danger mui-col-md-1' onClick={onHistorial}>
-        HISTORIAL
-      </button>
-    </div>
+    <>
+      <Stack direction='row' spacing='10px'>
+        <TextField
+          variant='outlined'
+          type='text'
+          placeholder='Bogotá'
+          label='Ciudad'
+          onChange={onInputChange}
+          autoComplete='false'
+        />
+        <Button variant='contained' onClick={onSearchButtonClick}>
+          BUSCAR CIUDAD
+        </Button>
+        <Button variant='contained' onClick={onHistorialButtonClick}>
+          Mostrar Historial
+        </Button>
+      </Stack>
+    </>
   )
 }
