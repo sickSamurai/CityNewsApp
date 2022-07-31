@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { City } from './CityType'
+import { City } from '../types/City'
 
 const appid = 'ae4ef3e6bb2395c795f847fa8b8bc1c0'
 
@@ -22,4 +22,4 @@ const getCitiesFromAPI = async (city: string) => {
   return cities as City[]
 }
 
-export { getCitiesFromAPI}
+export { getCitiesFromAPI }

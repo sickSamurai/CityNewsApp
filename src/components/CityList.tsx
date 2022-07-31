@@ -1,4 +1,4 @@
-import { City } from '../helpers/CityType'
+import { City } from '../types/City'
 
 type Props = {
   cities: City[]
