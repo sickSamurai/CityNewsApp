@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { Stack } from '@mui/material'
 
 type Props = {
   onSearch: (term: string) => void
+  onHistorialRequest: () => void
 }
 
-export const CitySearcher = ({ onSearch }: Props) => {
+export const CitySearcher = ({ onSearch, onHistorialRequest }: Props) => {
   const [inputValue, setInputValue] = useState('')
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +23,7 @@ export const CitySearcher = ({ onSearch }: Props) => {
 
   const onHistorialButtonClick = (event: React.MouseEvent) => {
     event.preventDefault()
+    onHistorialRequest()
   }
 
   return (

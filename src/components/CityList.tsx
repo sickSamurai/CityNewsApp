@@ -1,22 +1,14 @@
-import React from 'react'
-import { useState } from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import { City } from '../helpers/City'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import { ListItemIcon, ListItemText } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
+import { City } from '../types/City'
+import { Dialog, DialogTitle, List, ListItem, ListItemText, ListItemButton } from '@mui/material'
 
 type Props = {
   cities: City[]
-  isListVisible: boolean
+  isVisible: boolean
   onClose: () => void
   onCitySelection: (city: City) => void
 }
 
-export const CityList = ({ cities, isListVisible, onClose, onCitySelection }: Props) => {
+export const CityList = ({ cities, isVisible, onClose, onCitySelection }: Props) => {
   const handleClose = () => onClose()
 
   const handleCitySelection = (city: City) => {
@@ -26,7 +18,7 @@ export const CityList = ({ cities, isListVisible, onClose, onCitySelection }: Pr
 
   return (
     <>
-      <Dialog open={isListVisible} onClose={handleClose}>
+      <Dialog open={isVisible} onClose={handleClose}>
         <DialogTitle>Ciudades encontradas</DialogTitle>
         <List>
           {cities.map((city, index) => (
