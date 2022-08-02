@@ -1,13 +1,14 @@
 import { Weather } from '../types/Weather'
 import { Image } from 'mui-image'
-import { Card, Box, Paper, Stack, Typography, CardContent   } from '@mui/material'
+import { Card, Box, Stack, Typography, CardContent } from '@mui/material'
 
 type Props = {
+  isVisible: boolean
   weather?: Weather
 }
 
-export const WeatherInfo = ({ weather }: Props) => {
-  if (weather === undefined) return null
+export const WeatherInfo = ({ isVisible, weather }: Props) => {
+  if (weather === undefined || !isVisible) return null
   else {
     const imageURL = `http://openweathermap.org/img/wn/${weather.info.icon}@2x.png`
     return (
