@@ -40,14 +40,14 @@ export const App = () => {
     getWeatherPerCity(city).then(setWeatherInfo)
   }
 
-  const resetView = () => {
+  const hideInfo = () => {
     setInfoVisibility(false)
   }
 
   return (
     <>
       <Title />
-      <CityForm onSearch={showCityList} onHistorialRequest={showHistorial} onReset={resetView} />
+      <CityForm onSearch={showCityList} onHistorialRequest={showHistorial} onReset={hideInfo} />
       <CityList
         cities={searchResults}
         isVisible={isListVisible}
