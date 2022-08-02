@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { Stack } from '@mui/material'
+import { Button, TextField, Stack } from '@mui/material'
 
 type Props = {
   onSearch: (term: string) => void
@@ -35,7 +33,7 @@ export const CitySearcher = ({ onSearch, onHistorialRequest }: Props) => {
           placeholder='Bogotá'
           label='Ciudad'
           onChange={onInputChange}
-          autoComplete='false'
+          autoComplete='off'
         />
         <Button variant='contained' onClick={onSearchButtonClick}>
           BUSCAR CIUDAD
