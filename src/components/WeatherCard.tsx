@@ -21,7 +21,7 @@ export const WeatherCard = ({ isVisible, weatherData }: Props) => {
             <Stack>
               <Typography variant='h4'>{weatherData.name}</Typography>
               <Typography variant='body1'>Temperatura: {weatherData.main.temp}ºC</Typography>
-              <Typography variant='body1'>Humedad del aire: {weatherData.main.humidity}</Typography>
+              <Typography variant='body1'>Humedad del aire: {weatherData.main.humidity}%</Typography>
             </Stack>
           </Stack>
           <Typography variant='body1'>Estado: {weatherData.weather[0].description}</Typography>
