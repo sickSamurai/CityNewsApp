@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { City } from '../types/City'
+import { Everything } from '../types/Everything'
 import { Weather } from '../types/Weather'
 
-const baseURL = 'https://localhost:5001/v1'
-const NewsPath = '/CityNews'
-const geocodingPath = '/Geocoding'
-const weatherPath = '/Weather'
-const historialPath = '/Historial'
+const baseURL = 'https://localhost:5001'
+const newsPath = '/v1/CityNews'
+const geocodingPath = '/v1/Geocoding'
+const weatherPath = '/v1/Weather'
+const historialPath = '/v1/Historial'
 
 const getCities = async (cityName: string) => {
   const completeURL = `${baseURL}${geocodingPath}?cityName=${cityName}`
@@ -48,6 +49,17 @@ const getWeather = async (city: City) => {
   return weatherData
 }
 
+const getNews = async (cityName: string) => {
+  const completeURL = `${baseURL}${newsPath}/${cityName}`
+  const responseContent = (await axios.get(completeURL)).data
+  const everything = {
+    status: responseContent.status,
+    totalResults: responseContent.totalResults,
+    articles: responseContent.articles
+  }
+  return everything as Everything
+}
+
 const getHistorial = async () => {
   const completeURL = `${baseURL}${historialPath}`
   const response = (await axios.get(completeURL)).data
@@ -65,4 +77,9 @@ const postCity = async (city: City) => {
   await axios.post(completeURL, body)
 }
 
-export { getHistorial, getCities, getWeather, postCity }
+const isServerUp = async () => {
+  const response = await axios.get(baseURL)
+  return response.status == 200
+}
+
+export { isServerUp, getNews, getHistorial, getCities, getWeather, postCity }

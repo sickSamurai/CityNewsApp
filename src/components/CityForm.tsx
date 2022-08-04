@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, TextField, Stack } from '@mui/material'
+import { TextField, Stack, IconButton } from '@mui/material'
+import { Search, History, Clear } from '@mui/icons-material'
 
 type Props = {
   onSearch: (term: string) => void
@@ -32,7 +33,7 @@ export const CityForm = ({ onSearch, onHistorialRequest, onReset }: Props) => {
 
   return (
     <>
-      <Stack direction='row' spacing='10px'>
+      <Stack sx={{ m: 2 }} direction='row' spacing='10px'>
         <TextField
           variant='outlined'
           type='text'
@@ -42,15 +43,16 @@ export const CityForm = ({ onSearch, onHistorialRequest, onReset }: Props) => {
           onChange={onInputChange}
           autoComplete='off'
         />
-        <Button variant='contained' onClick={onSearchButtonClick}>
-          BUSCAR CIUDAD
-        </Button>
-        <Button variant='contained' onClick={onHistorialButtonClick}>
-          Mostrar Historial
-        </Button>
-        <Button variant='contained' onClick={resetView}>
-          RESET
-        </Button>
+        <IconButton color='primary' onClick={onSearchButtonClick}>
+          <Search />
+        </IconButton>
+
+        <IconButton color='primary' onClick={onHistorialButtonClick}>
+          <History />
+        </IconButton>
+        <IconButton color='secondary' onClick={resetView}>
+          <Clear />
+        </IconButton>
       </Stack>
     </>
   )
