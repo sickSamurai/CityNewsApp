@@ -1,17 +1,23 @@
 export type Weather = {
+  name: string
   coord: {
     lat: number
     lon: number
   }
-
-  info: {
-    name: string
-    description: string
-    icon: string
+  main: {
     temp: number
     feels_like: number
     temp_min: number
     temp_max: number
+    pressure: number
     humidity: number
   }
+  weather: Description[]
+}
+
+type Description = {
+  id: number
+  main: string
+  icon: string
+  description: string
 }

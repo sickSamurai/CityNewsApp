@@ -2,28 +2,28 @@ import { CityForm } from './CityForm'
 import { Title } from './Title'
 import { useState } from 'react'
 import { CityList } from './CityList'
-import { WeatherInfo } from './WeatherInfo'
+import { WeatherCard } from './WeatherCard'
 
 import { City } from '../types/City'
 import { Weather } from '../types/Weather'
 
-import { getCitiesFromAPI, getWeatherPerCity } from '../api/openWeatherAPI'
+import { getCities, getHistorial, getWeather, postCity } from '../api/CityNewsAPI'
 
 export const App = () => {
   const [searchResults, setResults] = useState([] as City[])
-  const [weatherInfo, setWeatherInfo] = useState<Weather | undefined>(undefined)
+  const [weatherData, setWeatherData] = useState<Weather | undefined>(undefined)
   const [isInfoVisible, setInfoVisibility] = useState(false)
   const [historial, setHistorial] = useState([] as City[])
   const [isListVisible, setListVisibility] = useState(false)
   const [isHistorialVisible, setHistorialVisibility] = useState(false)
 
   const showHistorial = () => {
-    setHistorial(searchResults)
+    getHistorial().then(setHistorial)
     setHistorialVisibility(true)
   }
 
   const showCityList = (searchTerm: string) => {
-    getCitiesFromAPI(searchTerm).then(setResults)
+    getCities(searchTerm).then(setResults)
     setListVisibility(true)
   }
 
@@ -37,7 +37,10 @@ export const App = () => {
 
   const onCitySelection = (city: City) => {
     setInfoVisibility(true)
-    getWeatherPerCity(city).then(setWeatherInfo)
+    getWeather(city).then(weather => {
+      setWeatherData(weather)
+      postCity(city)
+    })
   }
 
   const hideInfo = () => {
@@ -60,7 +63,7 @@ export const App = () => {
         onClose={hideHistorial}
         onCitySelection={onCitySelection}
       />
-      <WeatherInfo isVisible={isInfoVisible} weather={weatherInfo} />
+      <WeatherCard isVisible={isInfoVisible} weatherData={weatherData} />
     </>
   )
 }
