@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { City } from '../types/City'
 import { Everything } from '../types/Everything'
 import { Weather } from '../types/Weather'
@@ -78,8 +78,13 @@ const postCity = async (city: City) => {
 }
 
 const isServerUp = async () => {
-  const response = await axios.get(baseURL)
-  return response.status == 200
+  var response: AxiosResponse
+  try {
+    response = await axios.get(baseURL)
+    return response.status == 200
+  } catch (error) {
+    return false
+  }
 }
 
 export { isServerUp, getNews, getHistorial, getCities, getWeather, postCity }
