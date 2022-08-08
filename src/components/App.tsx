@@ -34,8 +34,10 @@ export const App = () => {
   }
 
   const showCityList = (searchTerm: string) => {
-    getCities(searchTerm).then(setResults)
-    setListVisibility(true)
+    if (searchTerm.trim()) {
+      getCities(searchTerm).then(setResults)
+      setListVisibility(true)
+    }
   }
 
   const hideCityList = () => setListVisibility(false)
