@@ -1,27 +1,42 @@
-import { City } from '../types/City'
+import React from 'react'
 import { Dialog, DialogTitle, List, ListItem, ListItemText, ListItemButton } from '@mui/material'
 
+import { City } from '../types/City'
+import { NoCitiesDialog } from './NoCitiesDialog'
+import { useErrorDialog } from '../hooks/useErrorDialog'
+
 type Props = {
-  cities: City[]
-  isVisible: boolean
-  onClose: () => void
+  cities?: City[]
   onCitySelection: (city: City) => void
 }
 
-export const CityList = ({ cities, isVisible, onClose, onCitySelection }: Props) => {
-  const handleClose = () => onClose()
+export const CityList = ({ cities, onCitySelection }: Props) => {
+  const [isOpen, setVisibility] = React.useState(false)
+  const { isErrorDialogOpen, openErrorDialog, closeErrorDialog } = useErrorDialog()
+
+  const openResultDialog = () => setVisibility(true)
+
+  const closeResultDialog = () => setVisibility(false)
 
   const handleCitySelection = (city: City) => {
     onCitySelection(city)
-    handleClose()
+    closeResultDialog()
   }
+
+  React.useEffect(() => {
+    if (cities !== undefined) {
+      if (cities.length !== 0) openResultDialog()
+      else openErrorDialog()
+    }
+  }, [cities])
 
   return (
     <>
-      <Dialog open={isVisible} onClose={handleClose}>
+      <NoCitiesDialog open={isErrorDialogOpen} onClose={closeErrorDialog} />
+      <Dialog open={isOpen} onClose={closeResultDialog}>
         <DialogTitle>Ciudades encontradas</DialogTitle>
         <List>
-          {cities.map((city, index) => (
+          {cities?.map((city, index) => (
             <ListItem key={index}>
               <ListItemButton onClick={() => handleCitySelection(city)}>
                 <ListItemText primary={city.name} secondary={city.country} />

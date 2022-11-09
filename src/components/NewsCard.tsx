@@ -1,5 +1,6 @@
 import { Card, CardContent, Stack, Typography, Divider, CardActions, Button } from '@mui/material'
 import { Articles } from '../types/Everything'
+import React from 'react'
 
 type Props = {
   article: Articles
@@ -10,12 +11,14 @@ export const NewsCard = ({ article }: Props) => {
     <Card>
       <CardContent>
         <Stack direction='column'>
-          <Typography variant='h6'>{article.title} </Typography>
+          <Typography variant='h6'>
+            <b>{article.title}</b>
+          </Typography>
           <Divider variant='middle' />
           <Typography sx={{ m: 2 }} variant='body2'>
-            Author: {article.author != null ? article.author : 'desconocido'}
+            <b>Author:</b> {article.author || 'desconocido'}
           </Typography>
-          <Typography variant='body1'>{article.description} </Typography>
+          <Typography variant='body1'>{article.description}</Typography>
         </Stack>
       </CardContent>
       <CardActions>

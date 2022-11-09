@@ -1,30 +1,43 @@
+import React from 'react'
+import { Card, Stack, Typography, CardContent } from '@mui/material'
 import { Weather } from '../types/Weather'
-import { Image } from 'mui-image'
-import { Card, Box, Stack, Typography, CardContent } from '@mui/material'
 
 type Props = {
   isVisible: boolean
-  weatherData?: Weather
+  weather?: Weather
 }
 
-export const WeatherCard = ({ isVisible, weatherData }: Props) => {
-  if (weatherData === undefined || !isVisible) return null
+export const WeatherCard = ({ isVisible, weather }: Props) => {
+  if (weather === undefined || !isVisible) return null
   else {
-    const imageURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
     return (
       <Card sx={{ m: 2, width: '30%', height: '30%' }}>
         <CardContent>
-          <Stack m={2} spacing={2} direction='row'>
-            <Box sx={{ width: 100, height: 100 }}>
-              <Image src={imageURL} />
-            </Box>
+          <Stack alignItems='center' spacing={2} direction='row'>
+            <img
+              width={100}
+              height={100}
+              alt='Weather icon'
+              src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+            />
             <Stack>
-              <Typography variant='h4'>{weatherData.name}</Typography>
-              <Typography variant='body1'>Temperatura: {weatherData.main.temp}ºC</Typography>
-              <Typography variant='body1'>Humedad del aire: {weatherData.main.humidity}%</Typography>
+              <Typography sx={{ mb: 1 }} variant='h4'>
+                {weather.name}
+              </Typography>
+              <Typography variant='body1'>
+                <b>Temperatura:</b> {weather.main.temp} ºC
+              </Typography>
+              <Typography variant='body1'>
+                <b>Humedad del aire:</b> {weather.main.humidity}%
+              </Typography>
+              <Typography variant='body1'>
+                <b>Presion Atmosferica:</b> {weather.main.pressure} at
+              </Typography>
             </Stack>
           </Stack>
-          <Typography variant='body1'>Estado: {weatherData.weather[0].description}</Typography>
+          <Typography sx={{ mt: 2 }} variant='body1'>
+            <b>Estado:</b> {weather.weather[0].description}
+          </Typography>
         </CardContent>
       </Card>
     )

@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { App } from './components/App'
+import { MainPage } from './components/MainPage'
+import { MyContextProvider } from './context/MyContextProvider'
 
 const root = document.getElementById('root')
 if (root != null)
   ReactDOM.createRoot(root).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <MyContextProvider>
+      <MainPage />
+    </MyContextProvider>
   )

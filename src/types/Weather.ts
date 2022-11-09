@@ -1,9 +1,6 @@
 export type Weather = {
   name: string
-  coord: {
-    lat: number
-    lon: number
-  }
+  coord: { lat: number; lon: number }
   main: {
     temp: number
     feels_like: number
