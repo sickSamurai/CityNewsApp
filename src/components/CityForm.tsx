@@ -1,59 +1,60 @@
-import React, { useState } from 'react'
-import { TextField, Stack, IconButton } from '@mui/material'
+import React, { useContext } from 'react'
+import { Stack, IconButton, TextField, SxProps, useTheme } from '@mui/material'
 import { Search, History, Clear } from '@mui/icons-material'
+import { useForm } from '../hooks/useForm'
 
-type Props = {
-  onSearch: (term: string) => void
-  onHistorialRequest: () => void
-  onReset: () => void
-}
+import { MyContext } from '../context/MyContext'
 
-export const CityForm = ({ onSearch, onHistorialRequest, onReset }: Props) => {
-  const [inputValue, setInputValue] = useState('')
+export const CityForm = () => {
+  const { status, searchCities, updateHistorial, hideInfo } = useContext(MyContext)
+  const { inputValue, onInputChange, resetInput } = useForm()
 
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value)
+  const textFieldStyle: SxProps = {
+    borderRadius: 5,
+    backgroundColor: useTheme().palette.mode === 'light' ? '#fafafa' : '#2b2b2b'
   }
 
-  const onSearchButtonClick = (event: React.MouseEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    onSearch(inputValue)
-    setInputValue('')
+    searchCities(inputValue.trim())
+    resetInput()
   }
 
-  const onHistorialButtonClick = (event: React.MouseEvent) => {
-    event.preventDefault()
-    onHistorialRequest()
-  }
-
-  const resetView = (event: React.MouseEvent) => {
-    setInputValue('')
-    onReset()
+  const resetView = () => {
+    resetInput()
+    hideInfo()
   }
 
   return (
-    <>
-      <Stack sx={{ m: 2 }} direction='row' spacing='10px'>
-        <TextField
-          variant='outlined'
-          type='text'
-          placeholder='Bogotá'
-          label='Ciudad'
-          value={inputValue}
-          onChange={onInputChange}
-          autoComplete='off'
-        />
-        <IconButton color='primary' onClick={onSearchButtonClick}>
-          <Search />
-        </IconButton>
-
-        <IconButton color='primary' onClick={onHistorialButtonClick}>
-          <History />
-        </IconButton>
-        <IconButton color='secondary' onClick={resetView}>
-          <Clear />
-        </IconButton>
-      </Stack>
-    </>
+    <Stack
+      component='form'
+      alignItems='center'
+      justifyContent='end'
+      direction='row'
+      spacing='10px'
+      onSubmit={handleSubmit}>
+      <TextField
+        value={inputValue}
+        onChange={onInputChange}
+        variant='filled'
+        label='Ingresa la ciudad'
+        placeholder='Bogotá'
+        autoComplete='off'
+        disabled={status === 'not-connected'}
+        fullWidth
+        required
+        sx={textFieldStyle}
+        InputProps={{ sx: textFieldStyle }}
+      />
+      <IconButton type='submit' color='inherit' disabled={status === 'not-connected'}>
+        <Search />
+      </IconButton>
+      <IconButton color='inherit' disabled={status === 'not-connected'} onClick={updateHistorial}>
+        <History />
+      </IconButton>
+      <IconButton color='inherit' disabled={status === 'not-connected'} onClick={resetView}>
+        <Clear />
+      </IconButton>
+    </Stack>
   )
 }
