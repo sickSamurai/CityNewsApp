@@ -1,9 +1,10 @@
-import { Card, CardContent, Stack, Typography, Divider, CardActions, Button } from '@mui/material'
-import { Articles } from '../types/Everything'
+import { Button, Card, CardActions, CardContent, Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 
+import { Article } from '../models/everything.model'
+
 type Props = {
-  article: Articles
+  article: Article
 }
 
 export const NewsCard = ({ article }: Props) => {
@@ -22,7 +23,7 @@ export const NewsCard = ({ article }: Props) => {
         </Stack>
       </CardContent>
       <CardActions>
-        <Button href={article.url} size='small'>
+        <Button href={article.url} target='_blank' size='small'>
           Leer Más
         </Button>
       </CardActions>

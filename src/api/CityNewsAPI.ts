@@ -1,47 +1,41 @@
 import axios from 'axios'
-import { City } from '../types/City'
-import { Everything } from '../types/Everything'
-import { Weather } from '../types/Weather'
 
-const baseURL = 'https://localhost:5001'
-const newsPath = '/v1/CityNews'
-const geocodingPath = '/v1/Geocoding'
-const weatherPath = '/v1/Weather'
-const historialPath = '/v1/Historial'
-const testPath = '/v1/Test'
+import { City } from '../models/city.model'
+import { Everything } from '../models/everything.model'
+import { Weather } from '../models/weather.model'
+
+const baseURL = 'https://localhost:5000/api/v1'
+const newsPath = 'News'
+const geocodingPath = 'Geocoding'
+const weatherPath = 'Weather'
+const historialPath = 'Historial'
+const testPath = 'Test'
 
 const getCities = async (cityName: string) => {
-  const completeURL = `${baseURL}${geocodingPath}?cityName=${cityName}`
-  const response = (await axios.get<City[]>(completeURL)).data
-  return response as City[]
+  return (await axios.get<City[]>(`${baseURL}/${geocodingPath}?cityName=${cityName}`)).data
 }
 
 const getWeather = async (city: City) => {
-  const completeURL = `${baseURL}${weatherPath}?lat=${city.lat}&lon=${city.lon}`
-  return (await axios.get<Weather>(completeURL)).data
+  return (await axios.get<Weather>(`${baseURL}/${weatherPath}?lat=${city.lat}&lon=${city.lon}`)).data
 }
 
 const getNews = async (cityName: string) => {
-  const completeURL = `${baseURL}${newsPath}/${cityName}`
-  return (await axios.get<Everything>(completeURL)).data
+  return (await axios.get<Everything>(`${baseURL}/${newsPath}/${cityName}`)).data
 }
 
 const getHistorial = async () => {
-  const completeURL = `${baseURL}${historialPath}`
-  const response = (await axios.get<City[]>(completeURL)).data
+  const response = (await axios.get<City[]>(`${baseURL}/${historialPath}`)).data
   response.sort((a, b) => a.name.localeCompare(b.name))
   return response
 }
 
 const postCity = async (city: City) => {
-  const completeURL = `${baseURL}${historialPath}`
-  const body = { ...city }
-  await axios.post<City>(completeURL, body)
+  await axios.post<City>(`${baseURL}/${historialPath}`, { ...city })
 }
 
 const reachServer = async () => {
   try {
-    return (await axios.get(`${baseURL}${testPath}`)).status == 200
+    return (await axios.get(`${baseURL}/${testPath}`)).status == 200
   } catch (error) {
     return false
   }
