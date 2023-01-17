@@ -1,6 +1,7 @@
-import { AppBar, Box, Toolbar } from '@mui/material'
+import { AppBar, Box, Stack, Toolbar } from '@mui/material'
 import React from 'react'
-import { Title } from './Title'
+
+import { Brand } from './Brand'
 
 type Props = {
   cityForm: JSX.Element
@@ -10,10 +11,10 @@ export const NavBar = ({ cityForm }: Props) => {
   return (
     <AppBar position='sticky'>
       <Toolbar variant='dense'>
-        <Box alignItems='center' justifyContent='center' display='flex' flexDirection='row' width='100%'>
-          <Title />
+        <Stack alignItems='center' justifyContent='center' direction='row' width='100%'>
+          <Brand />
           <Box flexGrow={1}>{cityForm}</Box>
-        </Box>
+        </Stack>
       </Toolbar>
     </AppBar>
   )

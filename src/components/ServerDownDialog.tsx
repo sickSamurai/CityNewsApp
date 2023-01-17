@@ -1,30 +1,30 @@
-import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import React from 'react'
 
-import { reachServer } from '../api/CityNewsAPI'
-import { MyContext } from '../context/MyContext'
+import { useMyDispatch } from '../redux/hooks/useMyDispatch'
+import { useMySelector } from '../redux/hooks/useMySelector'
+import { tryConnectToServer } from '../redux/ui/ui.thunks'
 
 export const ServerDownDialog = () => {
-  const { connect } = React.useContext(MyContext)
-  const [counter, setCounter] = React.useState(0)
+  const dispatch = useMyDispatch()
+  const { connected } = useMySelector(state => state.uiReducer)
+  const [failedAttempts, setAttempts] = React.useState(0)
   const [isVisible, setVisibility] = React.useState(false)
 
-  const handleClose = () => setVisibility(false)
+  const close = () => setVisibility(false)
 
   React.useEffect(() => {
-    reachServer().then(isServerUp => {
-      if (isServerUp) connect()
-      else setTimeout(() => setCounter(counter + 1), 5000)
-      setVisibility(!isServerUp)
-    })
-  }, [counter])
+    dispatch(tryConnectToServer())
+    if (!connected) setTimeout(() => setAttempts(failedAttempts + 1), 5000)
+    setVisibility(!connected)
+  }, [failedAttempts])
 
   return (
-    <Dialog open={isVisible} onClose={handleClose}>
+    <Dialog open={isVisible} onClose={close}>
       <DialogTitle color='error'>Atención!!!</DialogTitle>
       <DialogContent>No se pudo conectar con el servidor, los servicios no funcionaran</DialogContent>
       <DialogActions>
-        <Button color='error' onClick={handleClose}>
+        <Button color='error' onClick={close}>
           ACEPTAR
         </Button>
       </DialogActions>

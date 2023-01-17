@@ -1,8 +1,20 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import fs from 'node:fs'
+import type { ServerOptions } from 'https'
+
+const developmentCertificateName = 'localhost.pfx'
+
+const httpsSettings: ServerOptions = {
+  pfx: fs.readFileSync(developmentCertificateName),
+  passphrase: '1908'
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: { port: 5002 },
+  server: {
+    https: httpsSettings,
+    port: 3000
+  },
   plugins: [react()]
 })

@@ -1,13 +1,17 @@
-import React, { useContext } from 'react'
-import { Stack, IconButton, TextField, SxProps, useTheme } from '@mui/material'
-import { Search, History, Clear } from '@mui/icons-material'
-import { useForm } from '../hooks/useForm'
+import { Clear, History, Search } from '@mui/icons-material'
+import { IconButton, Stack, SxProps, TextField, useTheme } from '@mui/material'
+import React from 'react'
 
-import { MyContext } from '../context/MyContext'
+import { useForm } from '../hooks/useForm'
+import { requestCities, requestHistorial } from '../redux/cities/cities.thunks'
+import { useMyDispatch } from '../redux/hooks/useMyDispatch'
+import { useMySelector } from '../redux/hooks/useMySelector'
+import { hideInfo } from '../redux/ui/ui.slice'
 
 export const CityForm = () => {
-  const { status, searchCities, updateHistorial, hideInfo } = useContext(MyContext)
+  const { connected } = useMySelector(state => state.uiReducer)
   const { inputValue, onInputChange, resetInput } = useForm()
+  const dispatch = useMyDispatch()
 
   const textFieldStyle: SxProps = {
     borderRadius: 5,
@@ -16,13 +20,15 @@ export const CityForm = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    searchCities(inputValue.trim())
     resetInput()
+    dispatch(requestCities(inputValue.trim()))
   }
+
+  const updateHistorial = () => dispatch(requestHistorial())
 
   const resetView = () => {
     resetInput()
-    hideInfo()
+    dispatch(hideInfo())
   }
 
   return (
@@ -32,7 +38,8 @@ export const CityForm = () => {
       justifyContent='end'
       direction='row'
       spacing='10px'
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+    >
       <TextField
         value={inputValue}
         onChange={onInputChange}
@@ -40,19 +47,19 @@ export const CityForm = () => {
         label='Ingresa la ciudad'
         placeholder='Bogotá'
         autoComplete='off'
-        disabled={status === 'not-connected'}
+        disabled={!connected}
         fullWidth
         required
         sx={textFieldStyle}
         InputProps={{ sx: textFieldStyle }}
       />
-      <IconButton type='submit' color='inherit' disabled={status === 'not-connected'}>
+      <IconButton type='submit' color='inherit' disabled={!connected || inputValue.trim() == ''}>
         <Search />
       </IconButton>
-      <IconButton color='inherit' disabled={status === 'not-connected'} onClick={updateHistorial}>
+      <IconButton color='inherit' disabled={!connected} onClick={updateHistorial}>
         <History />
       </IconButton>
-      <IconButton color='inherit' disabled={status === 'not-connected'} onClick={resetView}>
+      <IconButton color='inherit' disabled={!connected} onClick={resetView}>
         <Clear />
       </IconButton>
     </Stack>

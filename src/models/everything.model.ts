@@ -1,10 +1,10 @@
 export type Everything = {
   status: string
   totalResults: number
-  articles: Articles[]
+  articles: Article[]
 }
 
-export type Articles = {
+export type Article = {
   source: SourceObject
   author: string
   title: string

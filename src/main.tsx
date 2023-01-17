@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+
 import { MainPage } from './components/MainPage'
-import { MyContextProvider } from './context/MyContextProvider'
+import { store } from './redux/store'
 
 const root = document.getElementById('root')
 if (root != null)
   ReactDOM.createRoot(root).render(
-    <MyContextProvider>
+    <Provider store={store}>
       <MainPage />
-    </MyContextProvider>
+    </Provider>
   )
