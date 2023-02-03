@@ -20,8 +20,8 @@ export const CityForm = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    resetInput()
     dispatch(requestCities(inputValue.trim()))
+    resetInput()
   }
 
   const updateHistorial = () => dispatch(requestHistorial())
